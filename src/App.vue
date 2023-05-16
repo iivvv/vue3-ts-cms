@@ -1,5 +1,5 @@
 <template>
-  <header>app</header>
+  <!-- <header>app.vue content</header> -->
   <RouterView />
 </template>
 
