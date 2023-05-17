@@ -21,7 +21,7 @@ class HYCache {
     }
   }
 
-  deleteCache(key: string) {
+  removeCache(key: string) {
     this.storage.removeItem(key)
   }
 

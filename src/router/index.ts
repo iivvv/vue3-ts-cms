@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { LOGIN_TOKEN } from '@/global/constants'
+import { localCache } from '@/utils/cache'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +22,16 @@ const router = createRouter({
       component: () => import('@/views/notFound/not-found.vue')
     }
   ]
+})
+
+// 导航守卫
+router.beforeEach((to) => {
+  if (to.path !== '/login') {
+    const token = localCache.getCache(LOGIN_TOKEN)
+    if (!token) {
+      return '/login'
+    }
+  }
 })
 
 export default router
