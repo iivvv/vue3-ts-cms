@@ -26,7 +26,10 @@
             </template>
 
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">
+              <el-menu-item
+                :index="subitem.id + ''"
+                @click="handleItemClick(subitem)"
+              >
                 {{ subitem.name }}
               </el-menu-item>
             </template>
@@ -74,22 +77,30 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router'
 import { localCache } from '@/utils/cache'
 import useLoginStore from '../../store/login/login'
 
-// 获取动态的菜单
-// const loginStore = useLoginStore()
-// const userMenus = loginStore.userMenus
-// 通过pinia获取数据有个bug：刷新就丢失了 QUQ
-const userMenus = localCache.getCache('userMenus')
-
-// 定义props
+// 0.定义props
 defineProps({
   isFold: {
     type: Boolean,
     default: false
   }
 })
+
+// 1.获取动态的菜单
+// const loginStore = useLoginStore()
+// const userMenus = loginStore.userMenus //为啥没获取到
+// 通过pinia获取数据有个bug：刷新就丢失了 QUQ
+const userMenus = localCache.getCache('userMenus')
+
+// 2.监听item的点击
+const router = useRouter()
+function handleItemClick(item: any) {
+  const url = item.url
+  router.push(url)
+}
 </script>
 
 <style lang="less" scoped>

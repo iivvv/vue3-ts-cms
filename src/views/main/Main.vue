@@ -9,7 +9,10 @@
         <el-header class="header">
           <main-header @fold-change="handleFoldChange" />
         </el-header>
-        <el-main class="main-container">Main</el-main>
+        <el-main class="main-container">
+          main
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
 
@@ -53,7 +56,7 @@ function handleFoldChange(flag: boolean) {
   height: 40px;
 }
 .main-container {
-  background-color: rgb(200, 236, 236);
+  background-color: rgb(207, 236, 236);
   height: 100vh;
 }
 </style>

@@ -5,7 +5,7 @@ import { createApp } from 'vue'
 // import 'element-plus/dist/index.css' //全局引入element-plus
 import App from './App.vue'
 import router from './router'
-import pinia from './store'
+import registerStore from './store'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue' //注册所有图标
 
 const app = createApp(App)
@@ -14,8 +14,8 @@ const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
-
-app.use(router)
-app.use(pinia)
 // app.use(ElementPlus) //全局引入element-plus
+app.use(registerStore)
+app.use(router)
+
 app.mount('#app')
