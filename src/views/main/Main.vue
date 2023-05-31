@@ -10,7 +10,6 @@
           <main-header @fold-change="handleFoldChange" />
         </el-header>
         <el-main class="main-container">
-          main
           <router-view></router-view>
         </el-main>
       </el-container>

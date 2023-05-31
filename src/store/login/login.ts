@@ -36,7 +36,7 @@ const useLoginStore = defineStore('login', {
       // 3.获取用户信息
       const userRes = await getUserById(userId)
       this.userInfo = userRes.data
-      localCache.setCache('useInfo', this.userInfo)
+      localCache.setCache('userInfo', this.userInfo)
 
       // 4.根据role的id获取菜单
       const roleId = this.userInfo.role.id
@@ -83,7 +83,9 @@ const useLoginStore = defineStore('login', {
       const token = localCache.getCache(LOGIN_TOKEN)
       const userInfo = localCache.getCache('userInfo')
       const userMenus = localCache.getCache('userMenus')
+
       if (token && userInfo && userMenus) {
+        // console.log('333')
         this.token = token
         this.userInfo = userInfo
         this.userMenus = userMenus
@@ -92,7 +94,6 @@ const useLoginStore = defineStore('login', {
         const routes = mapMenuToRoutes(userMenus)
         routes.forEach((route) => router.addRoute('main', route))
       }
-      // console.log('------')
     }
   }
 })

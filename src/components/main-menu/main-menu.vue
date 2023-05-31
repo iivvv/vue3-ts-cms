@@ -8,7 +8,7 @@
     <!-- 2.menu -->
     <div class="menu">
       <el-menu
-        default-active="2"
+        :default-active="defaultValue"
         :collapse="isFold"
         text-color="#b7bdc3"
         active-text-color="#fff"
@@ -35,42 +35,6 @@
             </template>
           </el-sub-menu>
         </template>
-        <!-- <el-sub-menu index="1">
-          <template #title>
-            <el-icon><location /></el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="2">
-          <template #title>
-            <el-icon><location /></el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon><location /></el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="2">
-          <template #title>
-            <el-icon><location /></el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-sub-menu> -->
       </el-menu>
     </div>
   </div>
@@ -78,8 +42,10 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { localCache } from '@/utils/cache'
-import useLoginStore from '../../store/login/login'
+import { localCache } from '../../utils/cache'
+import { ref } from 'vue'
+import { computed } from 'vue'
+import { mapPathToMenu } from '../../utils/map-menu'
 
 // 0.定义props
 defineProps({
@@ -90,9 +56,6 @@ defineProps({
 })
 
 // 1.获取动态的菜单
-// const loginStore = useLoginStore()
-// const userMenus = loginStore.userMenus //为啥没获取到
-// 通过pinia获取数据有个bug：刷新就丢失了 QUQ
 const userMenus = localCache.getCache('userMenus')
 
 // 2.监听item的点击
@@ -101,6 +64,14 @@ function handleItemClick(item: any) {
   const url = item.url
   router.push(url)
 }
+//3.根据地址显示高亮菜单
+const route = useRoute()
+// const currentMenu = mapPathToMenu(userMenus, route.path)
+// const defaultValue = ref<string>(currentMenu.id + '')
+const defaultValue = computed(() => {
+  const currentMenu = mapPathToMenu(userMenus, route.path)
+  return currentMenu.id + ''
+})
 </script>
 
 <style lang="less" scoped>
