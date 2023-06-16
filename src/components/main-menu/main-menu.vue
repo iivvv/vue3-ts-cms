@@ -3,7 +3,7 @@
     <!-- 1.logo -->
     <div class="logo">
       <img class="img" src="@/assets/img/logo.svg" />
-      <h2 class="title" v-show="!isFold">Vue3+ts管理系统</h2>
+      <h2 class="title" v-show="!isFold">后台管理系统</h2>
     </div>
     <!-- 2.menu -->
     <div class="menu">

@@ -2,7 +2,7 @@
 <template>
   <div class="main">
     <el-container>
-      <el-aside :width="isFold ? '60px' : '210px'">
+      <el-aside :width="isFold ? '60px' : '180px'">
         <main-menu :is-fold="isFold" />
       </el-aside>
       <el-container>
@@ -55,7 +55,10 @@ function handleFoldChange(flag: boolean) {
   height: 40px;
 }
 .main-container {
-  background-color: rgb(207, 236, 236);
+  background-color: rgb(235, 235, 235);
   height: 100vh;
 }
+// .el-main{
+//   border-radius: 20px;
+// }
 </style>
