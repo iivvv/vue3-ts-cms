@@ -3,7 +3,7 @@
     <!-- 表头 -->
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary" @click="handleNewData">新建用户</el-button>
+      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
     </div>
     <!-- 表格 -->
     <div class="table">
@@ -60,12 +60,26 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="200">
-          <el-button type="primary" size="small" icon="Edit" text>
-            编辑
-          </el-button>
-          <el-button type="danger" size="small" icon="Delete" text>
-            删除
-          </el-button>
+          <template #default="scope">
+            <el-button
+              type="primary"
+              size="small"
+              icon="Edit"
+              text
+              @click="handleEditBtnClick(scope.row)"
+            >
+              编辑
+            </el-button>
+            <el-button
+              type="danger"
+              size="small"
+              icon="Delete"
+              text
+              @click="handleDeleteBtnClick(scope.row.id)"
+            >
+              删除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -91,31 +105,41 @@ import { ref } from 'vue'
 
 const currentPage = ref(1)
 const pageSize = ref(15)
+// 定义事件
+const emit = defineEmits(['newClick', 'editClick'])
 
-function handleNewData() {
-  console.log('新建用户')
-}
-
-// 1.发送action 请求usersList数据
+// 1.发送请求usersList数据，存到store里
 const systemStore = useSystemStore()
-// systemStore.postUsersListAction() //异步操作第一次没有返回值
 function fetchUserListData(queryInfo: any = {}) {
   // 1.1.获取offset和size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
-
   // 1.2.发生网络请求 （由于没有真实的后端接口，这里传参重新请求其实没有变化）
   systemStore.postUsersListAction({ offset, size, ...queryInfo })
 }
 fetchUserListData()
+defineExpose({ fetchUserListData })
 
 // 2.展示数据
+//需要给数据包裹响应式，不然直接使用的话会加载不出来，因为请求是异步的，第一次加载是没有结果的。
 const { usersList, usersTotalCount } = storeToRefs(systemStore)
 // console.log(usersList)
 
 // 3.绑定分页数据
 function handleCurrentChange() {
   fetchUserListData()
+}
+
+// 5.删除/新建/编辑的操作
+function handleDeleteBtnClick(id: number) {
+  systemStore.deleteUserByIdAction(id)
+}
+function handleNewUserClick() {
+  console.log('新建用户')
+  emit('newClick')
+}
+function handleEditBtnClick(itemData: any) {
+  emit('editClick', itemData)
 }
 </script>
 

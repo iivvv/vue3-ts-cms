@@ -78,6 +78,10 @@
 import { reactive, ref } from 'vue'
 import type { ElForm } from 'element-plus'
 
+// 定义自定义事件
+const emit = defineEmits(['queryClick', 'resetClick'])
+
+// 定义form的数据
 const userSearchForm = reactive({
   name: '',
   realname: '',
@@ -90,14 +94,15 @@ const userSearchForm = reactive({
 const formRef = ref<InstanceType<typeof ElForm>>()
 function handleResetClick() {
   // console.log(formRef.value)
+  // 1.form中的数据全部重置
   formRef.value?.resetFields()
-  // emit('resetClick')
+  // 2.将事件出去, content内部重新发送网络请求
+  emit('resetClick')
 }
 
 //查询 （占位
 function handleQueryClick() {
-  console.log('查询')
-  // emit('queryClick', userSearchForm)
+  emit('queryClick', userSearchForm)
 }
 </script>
 
