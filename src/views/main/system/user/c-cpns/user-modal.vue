@@ -36,10 +36,10 @@
               placeholder="请选择角色"
               style="width: 100%"
             >
-              <el-option :label="111" :value="222" />
-              <!-- <template v-for="item in entireRoles" :key="item.id">
+              <!-- <el-option :label="111" :value="222" /> -->
+              <template v-for="item in entireRoles" :key="item.id">
                 <el-option :label="item.name" :value="item.id" />
-              </template> -->
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item label="选择部门" prop="departmentId">
@@ -48,11 +48,11 @@
               placeholder="请选择部门"
               style="width: 100%"
             >
-              <el-option :label="333" :value="444" />
-              <el-option :label="555" :value="444" />
-              <!-- <template v-for="item in entireDepartments" :key="item.id">
+              <!-- <el-option :label="333" :value="444" /> -->
+              <!-- <el-option :label="555" :value="444" /> -->
+              <template v-for="item in entireDepartments" :key="item.id">
                 <el-option :label="item.name" :value="item.id" />
-              </template> -->
+              </template>
             </el-select>
           </el-form-item>
         </el-form>
@@ -71,13 +71,13 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-// import useMainStore from '@/store/main/main'
-import useMainStore from '../../../../../store/main/main'
 import { storeToRefs } from 'pinia'
+import useMainStore from '@/store/main/main'
+// import useMainStore from '../../../../../store/main/main'
 import useSystemStore from '@/store/main/system/system'
 
 // 1.定义内部的属性
-const dialogVisible = ref(true)
+const dialogVisible = ref(false) //默认不显示
 const formData = reactive<any>({
   name: '',
   realname: '',
@@ -90,43 +90,46 @@ const isNewRef = ref(true)
 const editData = ref()
 
 // 2.获取roles/departments数据
-// const mainStore = useMainStore()
-// const systemStore = useSystemStore()
-// const { entireRoles, entireDepartments } = storeToRefs(mainStore)
+const mainStore = useMainStore()
+const systemStore = useSystemStore()
+const { entireRoles, entireDepartments } = storeToRefs(mainStore)
 
-// // 2.定义设置dialogVisible方法
-// function setModalVisible(isNew: boolean = true, itemData?: any) {
-//   dialogVisible.value = true
-//   isNewRef.value = isNew
-//   if (!isNew && itemData) {
-//     // 编辑数据
-//     for (const key in formData) {
-//       formData[key] = itemData[key]
-//     }
-//     editData.value = itemData
-//   } else {
-//     // 新建数据
-//     for (const key in formData) {
-//       formData[key] = ''
-//     }
-//     editData.value = null
-//   }
-// }
+// 2.定义设置dialogVisible方法
+function setModalVisible(isNew: boolean = true, itemData?: any) {
+  dialogVisible.value = true
+  isNewRef.value = isNew
+  if (!isNew && itemData) {
+    // 编辑数据
+    for (const key in formData) {
+      formData[key] = itemData[key]
+    }
+    editData.value = itemData
+  } else {
+    // 新建数据
+    for (const key in formData) {
+      formData[key] = ''
+    }
+    editData.value = null
+  }
+}
 
 // 3.点击了确定的逻辑
-// function handleConfirmClick() {
-//   dialogVisible.value = false
-//   // if (!isNewRef.value && editData.value) {
-//   //   // 编辑用户的数据
-//   //   systemStore.editUserDataAction(editData.value.id, formData)
-//   // } else {
-//   //   // 创建新的用户
-//   //   systemStore.newUserDataAction(formData)
-//   // }
-// }
+function handleConfirmClick() {
+  dialogVisible.value = false
 
-// // 暴露的属性和方法
-// defineExpose({ setModalVisible })
+  if (!isNewRef.value && editData.value) {
+    // 编辑用户的数据
+    systemStore.editUserDataAction(editData.value.id, formData)
+    console.log('已编辑（虚拟）')
+  } else {
+    // 创建新的用户
+    systemStore.newUserDataAction(formData)
+    console.log('已创建（虚拟）')
+  }
+}
+
+// 暴露的属性和方法
+defineExpose({ setModalVisible })
 </script>
 
 <style lang="less" scoped>

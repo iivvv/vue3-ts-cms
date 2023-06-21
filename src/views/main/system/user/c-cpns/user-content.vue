@@ -135,10 +135,11 @@ function handleDeleteBtnClick(id: number) {
   systemStore.deleteUserByIdAction(id)
 }
 function handleNewUserClick() {
-  console.log('新建用户')
+  // console.log('新建用户')
   emit('newClick')
 }
 function handleEditBtnClick(itemData: any) {
+  // console.log(itemData)
   emit('editClick', itemData)
 }
 </script>
