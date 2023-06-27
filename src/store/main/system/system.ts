@@ -3,14 +3,20 @@ import {
   postUsersListData,
   deleteUserById,
   newUserData,
-  editUserData
+  editUserData,
+  getPageListData,
+  deletePageData,
+  newPageData,
+  editPageData
 } from '@/service/main/system/system'
 import type { ISystemState } from './type'
 
 const useSystemStore = defineStore('system', {
   state: (): ISystemState => ({
     usersList: [],
-    usersTotalCount: 0
+    usersTotalCount: 0,
+    pageList: [],
+    pageTotalCount: 0
   }),
   actions: {
     // 请求用户列表数据
@@ -44,6 +50,31 @@ const useSystemStore = defineStore('system', {
       const res = await editUserData(id, userInfo)
       console.log(res)
       this.postUsersListAction({ offset: 0, size: 10 })
+    },
+
+    // ——通用页面的网络请求——
+    async getPageListDataAction(pageName: string, queryInfo: any) {
+      // 1.请求用户列表数据
+      const pageListResult = await getPageListData(pageName, queryInfo)
+      const { list, totalCount } = pageListResult.data
+      this.pageList = list
+      this.pageTotalCount = totalCount
+    },
+    async deletePageDataAction(pageName: string, id: number) {
+      const res = await deletePageData(pageName, id)
+      console.log(res)
+      this.getPageListDataAction(pageName, { offset: 0, size: 10 })
+    },
+    async newPageDataAction(pageName: string, pageData: any) {
+      const res = await newPageData(pageName, pageData)
+      console.log(pageData)
+      console.log(res)
+      this.getPageListDataAction(pageName, { offset: 0, size: 10 })
+    },
+    async editPageDataAction(pageName: string, id: number, pageData: any) {
+      const res = await editPageData(pageName, id, pageData)
+      console.log(res)
+      this.getPageListDataAction(pageName, { offset: 0, size: 10 })
     }
   }
 })
