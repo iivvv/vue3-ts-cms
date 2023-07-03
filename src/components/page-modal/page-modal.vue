@@ -1,12 +1,20 @@
 <template>
   <div class="modal">
-    <el-dialog v-model="dialogVisible" :title="modalConfig.title" width="30%" center>
+    <el-dialog
+      v-model="dialogVisible"
+      :title="modalConfig.header.editTitle"
+      width="30%"
+      center
+    >
       <div class="form">
         <el-form :model="formData" label-width="80px" size="large">
           <template v-for="item in modalConfig.formItems" :key="item.prop">
             <el-form-item :label="item.label" :prop="item.prop">
               <template v-if="item.type === 'input'">
-                <el-input v-model="formData[item.prop]" :placeholder="item.placeholder" />
+                <el-input
+                  v-model="formData[item.prop]"
+                  :placeholder="item.placeholder"
+                />
               </template>
               <template v-if="item.type === 'password'">
                 <el-input
@@ -55,36 +63,61 @@
 <script setup lang="ts" name="modal">
 import useSystemStore from '@/store/main/system/system'
 import { reactive, ref } from 'vue'
+// import type { IModalProps } from './type' //会报错
 
-// 定义props
+// 0.定义props
 interface IProps {
   modalConfig: {
     pageName: string
     title: string
+    header: {
+      newTitle: string
+      editTitle: string
+    }
     formItems: any[]
   }
   otherInfo?: any
 }
 
 const props = defineProps<IProps>()
+// const props = defineProps:IModalProps()
 
+// 1.定义内部的属性的初始化值
 const dialogVisible = ref(false)
+// const dialogVisible = ref(true)
 const isEdit = ref(false)
 const editData = ref()
-
-// 部门和角色的数据
-// const mainStore = useMainStore()
-// const { entireDepartments } = storeToRefs(mainStore)
-
-// 定义数据绑定
-const initialForm: any = {}
+const initialForm: any = {} //
 for (const item of props.modalConfig.formItems) {
   initialForm[item.prop] = item.initialValue ?? ''
 }
 const formData = reactive(initialForm)
 
-// 点击确定
+// 部门和角色的数据
+// const mainStore = useMainStore()
+// const { entireDepartments } = storeToRefs(mainStore)
+
+// 2.设置visible，新建或者编辑
+function setDialogVisible(isNew: boolean = true, data: any = {}) {
+  dialogVisible.value = true
+  isEdit.value = !isNew
+  for (const key in formData) {
+    if (isNew) {
+      formData[key] = ''
+      //设置初始化值（可以删掉
+      for (const item of props.modalConfig.formItems) {
+        initialForm[item.prop] = item.initialValue ?? ''
+      }
+    } else {
+      editData.value = data
+      formData[key] = data[key]
+    }
+  }
+}
+
+// 3.点击确定
 const systemStore = useSystemStore()
+
 function handleConfirmClick() {
   dialogVisible.value = false
   let data = { ...formData }
@@ -94,21 +127,11 @@ function handleConfirmClick() {
   if (!isEdit.value) {
     systemStore.newPageDataAction(props.modalConfig.pageName, data)
   } else {
-    systemStore.editPageDataAction(props.modalConfig.pageName, editData.value.id, data)
-  }
-}
-
-// 新建或者编辑
-function setDialogVisible(isNew: boolean = true, data: any = {}) {
-  dialogVisible.value = true
-  isEdit.value = !isNew
-  editData.value = data
-  for (const key in formData) {
-    if (isNew) {
-      formData[key] = ''
-    } else {
-      formData[key] = data[key]
-    }
+    systemStore.editPageDataAction(
+      props.modalConfig.pageName,
+      editData.value.id,
+      data
+    )
   }
 }
 

@@ -12,7 +12,10 @@
       @new-data-click="handleNewDataClick"
       @edit-data-click="handleEditDataClick"
     >
-      <template #leader="scope"> 111{{ scope.row.leader }}222 </template>
+      <template #leader="scope">
+        <!-- <span class="leader">++{{ scope.row.leader }}++ </span> -->
+        <span class="leader">++{{ scope.row[scope.prop] }}++ </span>
+      </template>
     </page-content>
     <page-modal :modal-config="modalConfigRef" ref="modalRef" />
   </div>
@@ -34,11 +37,16 @@ import modalConfig from './config/modal.config'
 import usePageModal from '@/hooks/usePageModal'
 import usePageContent from '@/hooks/usePageContent'
 
-const mainStore = useMainStore()
 const modalConfigRef = computed(() => {
+  const mainStore = useMainStore()
+  // const departments = mainStore.entireDepartments.map((item) => {
+  //   return { label: item.name, value: item.id }
+  // })
   modalConfig.formItems.forEach((item) => {
     if (item.prop === 'parentId') {
-      item.options = mainStore.entireDepartments as any
+      // item.options = mainStore.entireDepartments as any
+      item.options.push(...mainStore.entireDepartments)
+      // item.options.push(...departments)
     }
   })
   return modalConfig
@@ -51,4 +59,8 @@ const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
 const { modalRef, handleNewDataClick, handleEditDataClick } = usePageModal()
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.leader {
+  color: red;
+}
+</style>

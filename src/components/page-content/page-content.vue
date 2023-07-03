@@ -62,7 +62,11 @@
               :width="item.width"
             >
               <template #default="scope">
-                <slot :name="item.slotName" v-bind="scope"></slot>
+                <slot
+                  :name="item.slotName"
+                  v-bind="scope"
+                  :prop="item.prop"
+                ></slot>
               </template>
             </el-table-column>
           </template>
