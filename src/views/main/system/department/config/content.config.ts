@@ -10,17 +10,17 @@ const contentConfig = {
 
     { type: 'normal', prop: 'name', label: '部门名称', width: 150 },
     { type: 'normal', prop: 'leader', label: '部门领导', width: 120 },
-    { type: 'normal', prop: 'parentId', label: '上级部门', width: 90 },
-    { type: 'time', prop: 'createAt', label: '创建时间' },
-    { type: 'time', prop: 'updateAt', label: '更新时间' },
-    { type: 'handler', label: '操作', width: 180 },
     {
       type: 'custom',
       prop: 'leader',
       label: '插槽自定义',
       width: 120,
       slotName: 'leader'
-    }
+    },
+    { type: 'normal', prop: 'parentId', label: '上级部门', width: 90 },
+    { type: 'time', prop: 'createAt', label: '创建时间' },
+    { type: 'time', prop: 'updateAt', label: '更新时间' },
+    { type: 'handler', label: '操作', width: 180 }
   ]
 }
 

@@ -12,6 +12,7 @@
       @new-data-click="handleNewDataClick"
       @edit-data-click="handleEditDataClick"
     >
+      <!-- 具名插槽设置自定义内容 -->
       <template #leader="scope">
         <!-- <span class="leader">++{{ scope.row.leader }}++ </span> -->
         <span class="leader">++{{ scope.row[scope.prop] }}++ </span>
@@ -52,6 +53,7 @@ const modalConfigRef = computed(() => {
   return modalConfig
 })
 
+// hooks
 // content的逻辑处理
 const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
 

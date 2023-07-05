@@ -2,7 +2,9 @@
   <div class="modal">
     <el-dialog
       v-model="dialogVisible"
-      :title="modalConfig.header.editTitle"
+      :title="
+        isEdit ? modalConfig.header.editTitle : modalConfig.header.newTitle
+      "
       width="30%"
       center
     >
@@ -66,7 +68,7 @@ import { reactive, ref } from 'vue'
 // import type { IModalProps } from './type' //会报错
 
 // 0.定义props
-interface IProps {
+interface IModalProps {
   modalConfig: {
     pageName: string
     title: string
@@ -79,7 +81,7 @@ interface IProps {
   otherInfo?: any
 }
 
-const props = defineProps<IProps>()
+const props = defineProps<IModalProps>()
 // const props = defineProps:IModalProps()
 
 // 1.定义内部的属性的初始化值

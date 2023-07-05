@@ -13,7 +13,7 @@ const modalConfig: IModalConfig = {
       prop: 'name',
       type: 'input',
       placeholder: '请输入部门名称',
-      initialValue: '111'
+      initialValue: ''
     },
     {
       label: '部门领导',

@@ -13,7 +13,10 @@
         style="width: 100%"
         v-bind="contentConfig.childrenProps"
       >
+        <!-- 列表渲染表格每列字段 -->
         <template v-for="item in contentConfig.propsList" :key="item.prop">
+          <!-- 根据每列类型设置多种样式 -->
+          <!-- 时间 -->
           <template v-if="item.type === 'time'">
             <el-table-column
               align="center"
@@ -25,6 +28,7 @@
               </template>
             </el-table-column>
           </template>
+          <!-- 编辑删除 -->
           <template v-else-if="item.type === 'handler'">
             <el-table-column
               align="center"
@@ -55,6 +59,7 @@
               </template>
             </el-table-column>
           </template>
+          <!-- ！自定义！ -->
           <template v-else-if="item.type === 'custom'">
             <el-table-column
               align="center"
@@ -62,6 +67,7 @@
               :width="item.width"
             >
               <template #default="scope">
+                <!-- 具名插槽预留自定义空间，在父组件中设置 -->
                 <slot
                   :name="item.slotName"
                   v-bind="scope"
@@ -70,6 +76,7 @@
               </template>
             </el-table-column>
           </template>
+          <!-- 其他 -->
           <template v-else>
             <el-table-column align="center" v-bind="item" />
           </template>
@@ -141,6 +148,7 @@ fetchPageListData()
 
 // 2.展示数据
 const { pageList, pageTotalCount } = storeToRefs(systemStore)
+// console.log(pageList)
 
 // 3.绑定分页数据
 function handleCurrentChange() {
