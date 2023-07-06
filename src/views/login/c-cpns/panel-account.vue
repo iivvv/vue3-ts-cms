@@ -71,8 +71,8 @@ function loginAction(isKeep: boolean) {
         localCache.setCache('name', name)
         localCache.setCache('password', password)
       } else {
-        localCache.deleteCache('name')
-        localCache.deleteCache('password')
+        localCache.removeCache('name')
+        localCache.removeCache('password')
       }
     } else {
       // console.log('failed')

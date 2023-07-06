@@ -101,7 +101,7 @@ import { storeToRefs } from 'pinia'
 import useSystemStore from '@/store/main/system/system'
 import { utcFormat } from '@/utils/format'
 import { ref } from 'vue'
-// import usePermission from '@/hooks/usePermission'
+import usePermission from '@/hooks/usePermission'
 
 interface IProps {
   contentConfig: {
@@ -118,14 +118,15 @@ const props = defineProps<IProps>()
 const emit = defineEmits(['newDataClick', 'editDataClick'])
 
 // 0.判断是否有增删改查的权限
-// const isCreate = usePermission(props.contentConfig.pageName, 'create')
-// const isDelete = usePermission(props.contentConfig.pageName, 'delete')
-// const isUpdate = usePermission(props.contentConfig.pageName, 'update')
-// const isQuery = usePermission(props.contentConfig.pageName, 'query')
-const isCreate = true
-const isDelete = true
-const isUpdate = true
-const isQuery = true
+const isCreate = usePermission(props.contentConfig.pageName, 'create')
+const isDelete = usePermission(props.contentConfig.pageName, 'delete')
+const isUpdate = usePermission(props.contentConfig.pageName, 'update')
+
+// const isCreate = true
+// const isDelete = true
+// const isUpdate = true
+// const isQuery = true
+// console.log(isCreate)
 
 // 1.请求数据
 const systemStore = useSystemStore()

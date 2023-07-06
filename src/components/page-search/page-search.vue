@@ -43,6 +43,7 @@
         icon="Search"
         type="primary"
         @click="handleQueryClick"
+        v-if="isQuery"
       >
         查询
       </el-button>
@@ -53,6 +54,7 @@
 <script setup lang="ts" name="page-search">
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
+import usePermission from '@/hooks/usePermission'
 
 interface IProps {
   searchConfig: {
@@ -62,6 +64,9 @@ interface IProps {
 }
 const props = defineProps<IProps>()
 const emit = defineEmits(['queryClick', 'resetClick'])
+
+const isQuery = usePermission(props.searchConfig.pageName, 'query')
+console.log(isQuery)
 
 // 1.创建表单的数据
 const initialForm: any = {}

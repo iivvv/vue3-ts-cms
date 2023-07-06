@@ -107,3 +107,19 @@ export function mapMenuToIds(menus: any[]) {
   _recurseGetId(menus)
   return ids
 }
+
+//映射菜单 to 权限
+export function mapMenuToPermissions(menus: any[]) {
+  const permissions: string[] = []
+  function _recurseGetPermission(menuList: any[]) {
+    for (const menu of menuList) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermission(menu.children ?? [])
+      } else {
+        permissions.push(menu.permission)
+      }
+    }
+  }
+  _recurseGetPermission(menus)
+  return permissions
+}

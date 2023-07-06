@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import type { IAccount } from '@/types'
 import { LOGIN_TOKEN } from '@/global/constants'
 import type { RouteRecordRaw } from 'vue-router'
-import { mapMenuToRoutes } from '@/utils/map-menu'
+import { mapMenuToRoutes, mapMenuToPermissions } from '@/utils/map-menu'
 import useMainStore from '../main/main'
 
 interface ILoginState {
@@ -13,6 +13,7 @@ interface ILoginState {
   token: string
   userInfo: any
   userMenus: any
+  permissions: string[]
 }
 
 const useLoginStore = defineStore('login', {
@@ -20,7 +21,8 @@ const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: localCache.getCache(LOGIN_TOKEN) ?? '',
     userInfo: localCache.getCache('userInfo') ?? {},
-    userMenus: localCache.getCache('userMenus') ?? []
+    userMenus: localCache.getCache('userMenus') ?? [],
+    permissions: localCache.getCache('permissions') ?? []
   }),
   actions: {
     // 点击登录按钮时执行
@@ -49,6 +51,12 @@ const useLoginStore = defineStore('login', {
       //用户页面需要获取部门和角色数据
       const mainStore = useMainStore()
       mainStore.fetchEntireDataAction()
+
+      //获取登录用户的权限
+      const permissions = mapMenuToPermissions(userMenus)
+      this.permissions = permissions
+      localCache.setCache('permissions', permissions)
+      console.log(permissions)
 
       // 5.动态路由实现：
       // // ——————————————封装成函数
