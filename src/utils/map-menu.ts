@@ -92,6 +92,7 @@ export function mapPathToBreadcrumbs(menus: any[], path: string) {
   return breadcrumbs
 }
 
+//菜单映射到 id 列表 ，递归
 export function mapMenuToIds(menus: any[]) {
   const ids: number[] = []
   function _recurseGetId(menusList: any[]) {

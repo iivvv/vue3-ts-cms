@@ -45,6 +45,7 @@
                   v-model="formData[item.prop]"
                 />
               </template>
+              <!-- 自定义预留插槽 -->
               <template v-if="item.type === 'custom'">
                 <slot :name="item.slotName"></slot>
               </template>
@@ -124,6 +125,7 @@ function handleConfirmClick() {
   dialogVisible.value = false
   let data = { ...formData }
   if (props.otherInfo) {
+    //如有otherInfo 就添加到 data 后面
     data = { ...data, ...props.otherInfo }
   }
   if (!isEdit.value) {

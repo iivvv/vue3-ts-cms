@@ -17,12 +17,11 @@ const modalConfig = {
       label: '角色权限',
       prop: 'intro',
       placeholder: '请输入权限介绍'
+    },
+    {
+      type: 'custom',
+      slotName: 'menulist'
     }
-    // ,
-    // {
-    //   type: 'custom',
-    //   slotName: 'menulist'
-    // }
   ]
 }
 

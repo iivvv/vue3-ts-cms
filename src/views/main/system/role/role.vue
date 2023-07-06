@@ -57,11 +57,15 @@ const { modalRef, handleNewDataClick, handleEditDataClick } =
 const mainStore = useMainStore()
 const { entireMenus } = storeToRefs(mainStore)
 const otherInfo = ref({})
+//获取选中的菜单 id
 function handleMenuCheckChange(data1: any, data2: any) {
   const menuList = [...data2.checkedKeys, ...data2.halfCheckedKeys]
-  otherInfo.value = { menuList }
+  otherInfo.value = { menuList } // 把 otherInfo传给 page-modal
+  console.log(otherInfo)
 }
+
 const treeRef = ref<InstanceType<typeof ElTree>>()
+//修改 modal 显示不会立刻渲染，所以得用 nexttick 确保生效后再进行下一步
 function editCallback(data: any) {
   nextTick(() => {
     const menuList = mapMenuToIds(data.menuList)

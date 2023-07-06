@@ -171,7 +171,7 @@ function handleDeleteClick(id: number) {
 }
 
 function handleEditClick(data: any) {
-  emit('editDataClick', data)
+  emit('editDataClick', data) //data 是scope.row
 }
 
 // 暴露函数

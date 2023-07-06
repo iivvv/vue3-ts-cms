@@ -21,11 +21,12 @@ const useMainStore = defineStore('main', {
     async fetchEntireDataAction() {
       const departmentResult = await getDepartmentData({ offset: 0, size: 100 })
       const roleResult = await getRoleData({ offset: 0, size: 100 })
-      // const menuResult = await getMenuData()
+      const menuResult = await getMenuData()
+      console.log(menuResult)
 
       this.entireDepartments = departmentResult.data.list
       this.entireRoles = roleResult.data.list
-      // this.entireMenus = menuResult.data.list
+      this.entireMenus = menuResult.data.list
     }
   }
 })
