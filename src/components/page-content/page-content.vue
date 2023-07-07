@@ -121,6 +121,7 @@ const emit = defineEmits(['newDataClick', 'editDataClick'])
 const isCreate = usePermission(props.contentConfig.pageName, 'create')
 const isDelete = usePermission(props.contentConfig.pageName, 'delete')
 const isUpdate = usePermission(props.contentConfig.pageName, 'update')
+console.log(isCreate)
 
 // const isCreate = true
 // const isDelete = true
@@ -132,6 +133,20 @@ const isUpdate = usePermission(props.contentConfig.pageName, 'update')
 const systemStore = useSystemStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
+//订阅事件，事件成功后重置页码
+systemStore.$onAction(({ name, after }) => {
+  console.log('onAction')
+  after(() => {
+    if (
+      name === 'deletePageDataAction' ||
+      name === 'editPageDataAction' ||
+      name === 'newPageDataAction'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
+
 function fetchPageListData(queryInfo: any = {}) {
   // if (!isQuery) return
   // 1.获取offset和size

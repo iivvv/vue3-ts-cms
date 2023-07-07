@@ -4,7 +4,6 @@ import { localCache } from '@/utils/cache'
 import { defineStore } from 'pinia'
 import type { IAccount } from '@/types'
 import { LOGIN_TOKEN } from '@/global/constants'
-import type { RouteRecordRaw } from 'vue-router'
 import { mapMenuToRoutes, mapMenuToPermissions } from '@/utils/map-menu'
 import useMainStore from '../main/main'
 

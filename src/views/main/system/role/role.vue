@@ -50,8 +50,10 @@ import { mapMenuToIds } from '@/utils/map-menu'
 import type { ElTree } from 'element-plus'
 
 const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
-const { modalRef, handleNewDataClick, handleEditDataClick } =
-  usePageModal(editCallback)
+const { modalRef, handleNewDataClick, handleEditDataClick } = usePageModal(
+  newCallback,
+  editCallback
+)
 
 // 菜单的展示
 const mainStore = useMainStore()
@@ -65,7 +67,13 @@ function handleMenuCheckChange(data1: any, data2: any) {
 }
 
 const treeRef = ref<InstanceType<typeof ElTree>>()
-//修改 modal 显示不会立刻渲染，所以得用 nexttick 确保生效后再进行下一步
+//新建时清空表单
+function newCallback() {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
+  })
+}
+//修改 modal 显示不会立刻渲染，所以得用 nextTick 确保生效后再进行下一步
 function editCallback(data: any) {
   nextTick(() => {
     const menuList = mapMenuToIds(data.menuList)
