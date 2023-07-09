@@ -1,31 +1,51 @@
 <template>
   <div class="base-echart">
-    <div ref="echartRef" class="echart" style="width: 100%; height: 350px"></div>
+    <div class="echart" ref="echartRef"></div>
   </div>
 </template>
 
-<script setup lang="ts" name="base-echart">
-import { onMounted, ref, watchEffect } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted, watchEffect } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption } from 'echarts'
 import ChinaJSON from '../data/china.json'
 
-// 注册地图
+//？
 echarts.registerMap('china', ChinaJSON as any)
 
+//接收 option 配置
 interface IProps {
-  options: EChartsOption
+  option: EChartsOption
 }
-
 const props = defineProps<IProps>()
 
-const echartRef = ref<HTMLDivElement>()
+// 基于准备好的dom，初始化echarts实例，绘制图表
+const echartRef = ref<HTMLElement>()
 onMounted(() => {
-  const echartInstance = echarts.init(echartRef.value!, 'light', { renderer: 'canvas' })
-  watchEffect(() => {
-    echartInstance.setOption(props.options)
+  // 1.初始化echarts实例
+  const echartInstance = echarts.init(echartRef.value!, 'light', {
+    renderer: 'canvas'
+  })
+
+  // 2.第一次进行setOption
+  // watchEffect监听option变化, 重新执行
+  watchEffect(() => echartInstance.setOption(props.option))
+
+  // 3.监听window缩放
+  window.addEventListener('resize', () => {
+    echartInstance.resize()
   })
 })
+
+onMounted(() => {})
 </script>
 
-<style scoped lang="less"></style>
+<style lang="less" scoped>
+.base-echart {
+  color: red;
+}
+
+.echart {
+  height: 300px;
+}
+</style>

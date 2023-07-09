@@ -1,12 +1,12 @@
 <template>
   <div class="line-echart">
-    <base-echart :options="options"></base-echart>
+    <base-echart :option="option" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps, computed } from 'vue'
-import BaseEchart from '@/components/echarts'
+import BaseEchart from './base-echart.vue'
 import type { EChartsOption } from 'echarts'
 
 const props = defineProps<{
@@ -14,7 +14,22 @@ const props = defineProps<{
   values: string[]
 }>()
 
-const options = computed<EChartsOption>(() => {
+const option = computed<EChartsOption>(() => {
+  // return {
+  //   xAxis: {
+  //     type: 'category',
+  //     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  //   },
+  //   yAxis: {
+  //     type: 'value'
+  //   },
+  //   series: [
+  //     {
+  //       data: [150, 230, 224, 218, 135, 147, 260],
+  //       type: 'line'
+  //     }
+  //   ]
+  // }
   return {
     tooltip: {
       trigger: 'axis',

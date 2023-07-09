@@ -1,23 +1,32 @@
 <template>
   <div class="rose-echart">
-    <base-echart :options="options"></base-echart>
+    <base-echart :option="option" />
   </div>
 </template>
 
-<script lang="ts" setup>
-import { defineProps, computed } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import BaseEchart from './base-echart.vue'
 import type { EChartsOption } from 'echarts'
-import type { IEchartValueData } from '../types'
+import type { IEchartValueType } from '../types'
 
-const props = defineProps<{
-  roseData: IEchartValueData[]
-}>()
+interface IProps {
+  roseData: IEchartValueType[]
+}
 
-const options = computed<EChartsOption>(() => {
+const props = defineProps<IProps>()
+
+const option = computed<EChartsOption>(() => {
   return {
+    // legend: {
+    //   top: 'top'
+    // },
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
     toolbox: {
-      show: true,
+      show: false,
       feature: {
         mark: { show: true },
         dataView: { show: true, readOnly: false },
@@ -25,29 +34,36 @@ const options = computed<EChartsOption>(() => {
         saveAsImage: { show: true }
       }
     },
-    tooltip: {
-      trigger: 'item'
-    },
     series: [
       {
-        name: '访问来源',
+        // name: 'Nightingale Chart',
         type: 'pie',
-        // 内半径/外半径的大小
-        radius: [10, 160],
-        // 设置区域的位置
+        //内外半径
+        radius: [15, 100],
         center: ['50%', '50%'],
-        roseType: 'area', // 圆心角一样, 通过半径的不同表示大小
+        roseType: 'area',
         itemStyle: {
-          borderRadius: 8
+          borderRadius: 1
         },
-        data: props.roseData,
-        label: {
-          show: false
-        }
+        data: props.roseData
+        // data: [
+        //   { value: 40, name: 'rose 1' },
+        //   { value: 38, name: 'rose 2' },
+        //   { value: 32, name: 'rose 3' },
+        //   { value: 30, name: 'rose 4' },
+        //   { value: 28, name: 'rose 5' },
+        //   { value: 26, name: 'rose 6' },
+        //   { value: 22, name: 'rose 7' },
+        //   { value: 18, name: 'rose 8' }
+        // ]
       }
     ]
   }
 })
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.rose-echart {
+  color: red;
+}
+</style>

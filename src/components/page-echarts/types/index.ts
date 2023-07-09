@@ -1,4 +1,4 @@
-export interface IEchartValueData {
+export interface IEchartValueType {
+  value: number
   name: string
-  value: any
 }
