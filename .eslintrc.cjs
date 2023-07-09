@@ -15,6 +15,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'error',
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'no-undef': 'off' //临时解决commitlint.config.js module is not defined
   }
 }
