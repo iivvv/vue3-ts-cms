@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import PanelPhone from './panel-phone.vue'
 import PanelAccount from './panel-account.vue'
 

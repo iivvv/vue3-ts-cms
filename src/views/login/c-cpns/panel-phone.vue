@@ -15,8 +15,8 @@
 </template>
 
 <script setup lang="ts" name="phone">
-import { reactive, ref } from 'vue'
-import type { FormRules, FormInstance } from 'element-plus'
+import { reactive } from 'vue'
+import type { FormRules } from 'element-plus'
 // 定义内部的数据
 const phone = reactive({
   phoneNum: '',
