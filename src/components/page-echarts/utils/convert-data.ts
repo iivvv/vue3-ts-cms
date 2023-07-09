@@ -1,5 +1,5 @@
 import { coordinateData } from './coordinate-data'
-
+// 将城市名转成经纬度
 export function convertData(data: any) {
   const res = []
   for (let i = 0; i < data.length; i++) {

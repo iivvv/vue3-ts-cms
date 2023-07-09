@@ -3,6 +3,7 @@
     <!-- 1.顶部数字的数据展示 -->
     <el-row :gutter="10">
       <template v-for="item in amountList" :key="item.amount">
+        <!-- 响应式布局 -->
         <el-col :span="6" :xs="24" :sm="12" :md="8" :lg="6">
           <count-card v-bind="item" />
         </el-col>
@@ -17,7 +18,7 @@
         </chart-card>
       </el-col>
       <el-col :span="10">
-        <chart-card header="不同城市商品销量">
+        <chart-card header="不同城市商品销量（地图）">
           <map-echart :map-data="showGoodsAddressSale" />
         </chart-card>
       </el-col>
@@ -31,13 +32,13 @@
     <!-- 3.底部部分的图表 -->
     <el-row :gutter="10">
       <el-col :span="12">
-        <chart-card header="分类销量统计">
+        <chart-card header="分类销量统计（折线图）">
           <!-- 绑定对象形式的 attribute -->
           <line-echart v-bind="showGoodsCategorySale" />
         </chart-card>
       </el-col>
       <el-col :span="12">
-        <chart-card header="分类商品收藏">
+        <chart-card header="分类商品收藏（柱状图）">
           <bar-echart v-bind="showGoodsCategoryFavor" />
         </chart-card>
       </el-col>

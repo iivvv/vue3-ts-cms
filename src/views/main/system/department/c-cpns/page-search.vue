@@ -10,7 +10,10 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="部门领导" prop="leader">
-            <el-input v-model="searchForm.leader" placeholder="请输入部门领导" />
+            <el-input
+              v-model="searchForm.leader"
+              placeholder="请输入部门领导"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -28,8 +31,15 @@
     </el-form>
     <!-- 1.2.搜索按钮  -->
     <div class="btns">
-      <el-button size="large" icon="Refresh" @click="handleResetClick">重置</el-button>
-      <el-button size="large" icon="Search" type="primary" @click="handleQueryClick">
+      <el-button size="large" icon="Refresh" @click="handleResetClick"
+        >重置</el-button
+      >
+      <el-button
+        size="large"
+        icon="Search"
+        type="primary"
+        @click="handleQueryClick"
+      >
         查询
       </el-button>
     </div>

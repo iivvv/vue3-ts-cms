@@ -10,7 +10,7 @@ import * as echarts from 'echarts'
 import type { EChartsOption } from 'echarts'
 import ChinaJSON from '../data/china.json'
 
-//？
+//注册地图
 echarts.registerMap('china', ChinaJSON as any)
 
 //接收 option 配置
@@ -32,11 +32,13 @@ onMounted(() => {
   watchEffect(() => echartInstance.setOption(props.option))
 
   // 3.监听window缩放
+  //截流防抖可以在这里优化
   window.addEventListener('resize', () => {
     echartInstance.resize()
   })
 })
 
+//remove
 onMounted(() => {})
 </script>
 

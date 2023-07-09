@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 
 import BaseEchart from './base-echart.vue'
 import { convertData } from '../utils/convert-data'
@@ -65,6 +65,7 @@ const option = computed<EChartsOption>(() => {
         // 散点图在地图上展示数据
         type: 'scatter',
         coordinateSystem: 'geo',
+        // 城市名转成经纬度
         data: convertData(props.mapData),
         // 散点的大小(可以根据数据不同显示不同的大小, 设置为一个函数)
         symbolSize: 12,
