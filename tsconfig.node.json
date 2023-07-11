@@ -10,9 +10,10 @@
     "composite": true,
     "module": "ESNext",
     "types": ["node"],
+    "baseUrl": "./",
     "paths": {
       // "@/*": ["./src/*"]
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   }
 }
