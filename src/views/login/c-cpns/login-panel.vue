@@ -37,7 +37,7 @@ import PanelPhone from './panel-phone.vue'
 import PanelAccount from './panel-account.vue'
 
 //记住密码
-const isKeep = ref<boolean>(false)
+const isKeep = ref<boolean>(true)
 
 //获取子组件实例
 const accountRef = ref<InstanceType<typeof PanelAccount>>()

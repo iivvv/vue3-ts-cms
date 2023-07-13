@@ -3,9 +3,11 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const cors = require('cors')
 
 //0.实例化 app
 const app = express()
+app.use(cors())
 
 //3.连接 mongodb
 const db = require('./config/keys').mongoURI
@@ -21,10 +23,16 @@ mongoose
 //4.1路由引入
 const users = require('./routes/api/users')
 
+// 添加CORS头部信息
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*') // 允许访问的域名
+  next()
+})
+
 // //2.设置路由并测试
-// app.get('/', (req, res) => {
-//   res.send('hello world')
-// })
+app.get('/', (req, res) => {
+  res.send('hello world')
+})
 
 //5.为 post 接口 使用 body-parser 中间件
 app.use(bodyParser.urlencoded({ extended: false }))

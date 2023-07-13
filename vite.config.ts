@@ -25,4 +25,30 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src')
     }
   }
+  // ,
+  // server: {
+  //   // host: '127.0.0.1',
+  //   port: 5000,
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://localhost:9000', // 目标地址
+  //       changeOrigin: true
+  //     }
+  //     // ,
+  //     // '/test': {
+  //     //   target: 'http://localhost:9000', // 目标地址
+  //     //   changeOrigin: true,
+  //     //   rewrite: (path) => path.replace(/^\/test/, '') // 可选的路径重写规则
+  //     // },
+  //     // //这个可以成功跨域
+  //     // // '/API/game_dati.php': {
+  //     // //   target: 'https://xiaoapi.cn', // 目标地址
+  //     // //   changeOrigin: true
+  //     // // },
+  //     // '/API': {
+  //     //   target: 'https://xiaoapi.cn', // 目标地址
+  //     //   changeOrigin: true
+  //     // }
+  //   }
+  // }
 })

@@ -6,6 +6,7 @@ import type { IAccount } from '@/types'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { mapMenuToRoutes, mapMenuToPermissions } from '@/utils/map-menu'
 import useMainStore from '../main/main'
+import axios from 'axios'
 
 interface ILoginState {
   // 省略了很多，可以用工具网站根据后端返回内容生成完整类型
@@ -27,10 +28,45 @@ const useLoginStore = defineStore('login', {
     // 点击登录按钮时执行
     async accountLoginAction(account: IAccount) {
       // 1.获取登录信息
-      const loginRes = await accountLogin(account)
+      axios
+        // .post('/api/users/login', account)
+        .post('http://localhost:9000/api/users/login', account)
+        .then((response) => {
+          // 请求成功，处理返回的数据
+          console.log(response.data)
+        })
+        .catch((error) => {
+          // 请求失败，处理错误信息
+          console.error(error)
+        })
+      // axios
+      //   .get('/test/api/users/login')噶 11111111111111111 一样 11
+      //   .then((response) => {
+      //     // 请求成功，处理返回的数据
+      //     console.log(response.data)
+      //   })
+      //   .catch((error) => {
+      //     // 请求失败，处理错误信息
+      //     console.error(error)
+      //   })
+      //跨域测试
+      // axios
+      //   // .get('/API/game_dati.php?id=1828222534&msg=开始游戏')
+      //   .get('https://xiaoapi.cn/API/game_dati.php?id=1828222534&msg=开始游戏')
+      //   .then((response) => {
+      //     // 请求成功，处理返回的数据
+      //     console.log(response.data)
+      //   })
+      //   .catch((error) => {
+      //     // 请求失败，处理错误信息
+      //     console.error(error)
+      //   })
+
+      // const loginRes = await accountLogin(account)
+      console.log(account)
       // console.log(loginRes)
-      const { userId, token } = loginRes.data
-      this.token = token
+      // const { userId, token } = loginRes.data
+      // this.token = token
 
       // // 2.保存在cache中
       localCache.setCache(LOGIN_TOKEN, token)
