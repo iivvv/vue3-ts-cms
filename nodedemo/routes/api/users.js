@@ -20,20 +20,20 @@ router.get('/test', (req, res) => {
 // @access public
 router.post('/register', (req, res) => {
   // console.log(req.body) //携带的数据
-  //查询数据库中是否拥有该邮箱
-  User.findOne({ email: req.body.email }).then((user) => {
+  //查询数据库中是否拥有该手机号
+  User.findOne({ phone: req.body.phone }).then((user) => {
     if (user) {
-      return res.status(400).json('邮箱已被注册！')
+      return res.status(400).json('手机号已被注册！')
     } else {
       //mm 为默认头像
-      const avatar = gravatar.url(req.body.email, {
+      const avatar = gravatar.url(req.body.phone, {
         s: '200',
         r: 'pg',
         d: 'mm'
       })
       const newUser = new User({
         name: req.body.name,
-        email: req.body.email,
+        phone: req.body.phone,
         avatar,
         role: req.body.role,
         password: req.body.password
@@ -72,19 +72,36 @@ router.post('/login', (req, res) => {
         // res.json({ msg: 'success' })
         //登录成功返回 token
         const rule = {
-          id: user.id,
+          id: user._id,
           name: user.name,
           avatar: user.avatar,
           role: user.role
         }
         // jwt.sign('规则', '加密名称', '过期时间', '箭头函数')
-        jwt.sign(rule, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
-          if (err) throw err
-          res.json({
-            success: true,
-            token: 'Bearer ' + token //必须写bearer
-          })
-        })
+        jwt.sign(
+          rule,
+          keys.secretOrKey,
+          { expiresIn: 360000 },
+          (err, token) => {
+            if (err) throw err
+            //最初版本
+            // res.json({
+            //   success: true,
+            //   token: 'Bearer ' + token //必须写bearer
+            // })
+            //前端版本
+            res.json({
+              code: '200',
+              data: {
+                username: user.name,
+                userId: user._id,
+                avatar: user.avatar,
+                token: 'Bearer ' + token
+              },
+              desc: '成功'
+            })
+          }
+        )
       } else {
         return res.status(400).json('密码错误')
       }
@@ -92,22 +109,48 @@ router.post('/login', (req, res) => {
   })
 })
 
-// $route GET api/users/current
-// @desc 根据 token 返回请求的 current user数据
-// @access private
-// router.get('/current','验证 token','箭头函数’)
+// // $route GET api/users/current
+// // @desc 根据 token 返回请求的 current user数据
+// // @access private
+// // router.get('/current','验证 token','箭头函数’)
+// router.get(
+//   '/current',
+//   passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     // res.json({ msg: 'token success' })
+//     // res.json(req.user)
+//     res.json({
+//       id: req.user.id,
+//       name: req.user.name,
+//       phone: req.user.phone,
+//       role: req.user.role
+//     })
+//   }
+// )
+
+// $route GET api/users/:id
+// @desc a
+// @access public
 router.get(
-  '/current',
+  '/:userId',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    // res.json({ msg: 'token success' })
-    // res.json(req.user)
-    res.json({
-      id: req.user.id,
-      name: req.user.name,
-      email: req.user.email,
-      role: req.user.role
-    })
+    try {
+      // res.json({ msg: 'token success' })
+      // res.json(req.user)
+      res.json({
+        code: '200',
+        data: {
+          id: req.user.id,
+          name: req.user.name,
+          phone: req.user.phone,
+          role: req.user.role
+        }
+      })
+    } catch (error) {
+      console.error('Error retrieving user:', error)
+      res.status(500).json({ code: '9999', desc: '服务器内部错误' })
+    }
   }
 )
 

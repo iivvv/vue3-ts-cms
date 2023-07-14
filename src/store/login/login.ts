@@ -28,19 +28,9 @@ const useLoginStore = defineStore('login', {
     // 点击登录按钮时执行
     async accountLoginAction(account: IAccount) {
       // 1.获取登录信息
-      axios
-        // .post('/api/users/login', account)
-        .post('http://localhost:9000/api/users/login', account)
-        .then((response) => {
-          // 请求成功，处理返回的数据
-          console.log(response.data)
-        })
-        .catch((error) => {
-          // 请求失败，处理错误信息
-          console.error(error)
-        })
       // axios
-      //   .get('/test/api/users/login')噶 11111111111111111 一样 11
+      //   // .post('/api/users/login', account)
+      //   .post('http://localhost:9000/api/users/login', account)
       //   .then((response) => {
       //     // 请求成功，处理返回的数据
       //     console.log(response.data)
@@ -62,11 +52,11 @@ const useLoginStore = defineStore('login', {
       //     console.error(error)
       //   })
 
-      // const loginRes = await accountLogin(account)
+      const loginRes = await accountLogin(account)
       console.log(account)
-      // console.log(loginRes)
-      // const { userId, token } = loginRes.data
-      // this.token = token
+      console.log(loginRes)
+      const { userId, token } = loginRes.data
+      this.token = token
 
       // // 2.保存在cache中
       localCache.setCache(LOGIN_TOKEN, token)

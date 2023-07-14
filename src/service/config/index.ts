@@ -15,10 +15,9 @@ if (import.meta.env.PROD) {
   BASE_URL = 'http://152.136.185.210:4000'
   // BASE_URL = 'http://coderwhy.org/prod'
 } else {
-  // BASE_URL =
-  //   'https://www.fastmock.site/mock/046c9a86f344ac3742b8411ee508e233/cms' //fastmock
-  // BASE_URL = 'http://localhost:9000/api'
-  BASE_URL = '/api'
+  BASE_URL =
+    'https://www.fastmock.site/mock/046c9a86f344ac3742b8411ee508e233/cms' //fastmock
+  // 'http://localhost:9000/api'
 }
 
 // console.log(BASE_URL)
